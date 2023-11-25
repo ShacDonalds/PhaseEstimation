@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from scipy import stats
 
 phi = 0
-nb_run = 50
+nb_run = 20
 
 
 def estim_phi(n_shots, phi, n_oracle):
@@ -17,7 +17,7 @@ def estim_phi(n_shots, phi, n_oracle):
     return phi_esti / nb_run
 
 
-nb_range = 1000
+nb_range = 200
 
 delta_phi_nshots = []
 print("Processing n_shots")
@@ -26,11 +26,11 @@ for n in range(1, nb_range):
 
 print("Processing n_oracle")
 delta_phi_noracles = []
-for n in range(1, nb_range):
+for n in range(10, nb_range):
     delta_phi_noracles.append(abs(phi - estim_phi(10, phi, n)))
 
-plt.plot(range(1, nb_range), delta_phi_nshots, label="nshots")
-plt.plot(range(1, nb_range), delta_phi_noracles, label="n_oracles")
+plt.plot(range(10, nb_range), delta_phi_nshots, label="nshots")
+plt.plot(range(10, nb_range), delta_phi_noracles, label="n_oracles")
 plt.title("Comparaison de la precision en fonction de n_shots et n_oracles")
 plt.xlabel("n_shots ou n_oracles")
 plt.ylabel("precision")
@@ -38,7 +38,7 @@ plt.legend()
 
 
 X, reg_oracles, reg_shots = [], [], []
-for i in range(1, nb_range - 1):
+for i in range(len(delta_phi_noracles)):
     reg_oracles.append(np.log(delta_phi_noracles[i]))
     reg_shots.append(np.log(delta_phi_nshots[i]))
     X.append(np.log(i))
